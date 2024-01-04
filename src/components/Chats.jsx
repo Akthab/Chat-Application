@@ -11,9 +11,14 @@ const Chats = () => {
 	const { dispatch } = useContext(ChatContext);
 
 	useEffect(() => {
+		'In the use effect';
 		const getChats = () => {
 			const unsub = onSnapshot(doc(db, 'userChats', currentUser.uid), (doc) => {
-				setChats(doc.data());
+				if (doc.exists()) {
+					setChats(doc.data());
+				} else {
+					console.log('Undefined doc');
+				}
 			});
 
 			return () => {
